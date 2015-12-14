@@ -15,7 +15,7 @@ public class Main {
             application.startApplication();
             application.shutdown();
         } catch (RuntimeException e) {
-            LOGGER.error("Error :", e);
+            LOGGER.error("Error : ", e);
         }
     }
 }
