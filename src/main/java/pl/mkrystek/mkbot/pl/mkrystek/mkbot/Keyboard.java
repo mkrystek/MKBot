@@ -12,8 +12,8 @@ public class Keyboard {
 
     private Robot robot;
 
-    public Keyboard() throws AWTException {
-        this.robot = new Robot();
+    public Keyboard(Robot robot) {
+        this.robot = robot;
     }
 
     public void type(CharSequence characters) {
