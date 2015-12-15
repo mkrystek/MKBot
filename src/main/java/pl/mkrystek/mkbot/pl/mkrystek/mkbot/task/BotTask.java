@@ -1,14 +1,18 @@
 package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
 
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.Keyboard;
+import pl.mkrystek.mkbot.pl.mkrystek.mkbot.message.ContextMessage;
 
 public abstract class BotTask {
 
-    private final Keyboard keyboard;
+    protected final String taskName;
 
-    public BotTask(final Keyboard keyboard) {
-        this.keyboard = keyboard;
+    public BotTask(String taskName) {
+        this.taskName = taskName;
     }
 
-    public abstract void run();
+    public abstract boolean checkIfApplies(ContextMessage contextMessage);
+
+    public String getTaskName() {
+        return taskName;
+    }
 }

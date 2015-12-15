@@ -7,17 +7,16 @@ import pl.mkrystek.mkbot.pl.mkrystek.mkbot.task.TaskExecutionEngine;
 
 public class BotApplication {
 
-    private final Scheduler taskScheduler;
     private final TaskExecutionEngine taskExecutionEngine;
 
     public BotApplication() {
         try {
-            taskScheduler = StdSchedulerFactory.getDefaultScheduler();
+            Scheduler taskScheduler = StdSchedulerFactory.getDefaultScheduler();
+            taskExecutionEngine = new TaskExecutionEngine(taskScheduler);
         } catch (SchedulerException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        taskExecutionEngine = new TaskExecutionEngine(taskScheduler);
     }
 
     public void init() {
@@ -25,21 +24,10 @@ public class BotApplication {
     }
 
     public void startApplication() {
-        try {
-            taskScheduler.start();
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-        taskExecutionEngine.run();
+        taskExecutionEngine.start();
     }
 
     public void shutdown() {
-        try {
-            taskScheduler.shutdown();
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+        taskExecutionEngine.shutdown();
     }
 }

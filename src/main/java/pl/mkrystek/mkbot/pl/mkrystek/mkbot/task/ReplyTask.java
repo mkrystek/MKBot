@@ -1,15 +1,12 @@
 package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
 
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.Keyboard;
+import pl.mkrystek.mkbot.pl.mkrystek.mkbot.message.ContextMessage;
 
-public class ReplyTask extends BotTask {
+public abstract class ReplyTask extends BotTask {
 
-    public ReplyTask(final Keyboard keyboard) {
-        super(keyboard);
+    public ReplyTask(String taskName) {
+        super(taskName);
     }
 
-    @Override
-    public void run() {
-
-    }
+    public abstract void performAction(ContextMessage contextMessage);
 }
