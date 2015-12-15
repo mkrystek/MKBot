@@ -5,6 +5,8 @@ import static java.awt.event.KeyEvent.*;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.awt.*;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InOrder;
@@ -21,6 +23,13 @@ public class KeyboardTest {
     @InjectMocks
     private Keyboard keyboard;
 
+    InOrder order;
+
+    @Before
+    public void setUp() {
+        order = inOrder(robot);
+    }
+
     @Test
     public void shouldPressProperKeys() {
         //given
@@ -30,17 +39,27 @@ public class KeyboardTest {
         keyboard.type(sampleMessage);
 
         //then
-        InOrder order = inOrder(robot);
-        order.verify(robot).keyPress(VK_SHIFT);
-        order.verify(robot).keyPress(VK_A);
-        order.verify(robot).keyRelease(VK_A);
-        order.verify(robot).keyRelease(VK_SHIFT);
-        order.verify(robot).keyPress(VK_B);
-        order.verify(robot).keyRelease(VK_B);
-        order.verify(robot).keyPress(VK_SHIFT);
-        order.verify(robot).keyPress(VK_C);
-        order.verify(robot).keyRelease(VK_C);
-        order.verify(robot).keyRelease(VK_SHIFT);
+        verifySequencePressed(VK_SHIFT, VK_A);
+        verifySequencePressed(VK_B);
+        verifySequencePressed(VK_SHIFT, VK_C);
         verifyNoMoreInteractions(robot);
+    }
+
+    private void verifySequencePressed(int... sequence) {
+        verifySequence(sequence);
+    }
+
+    private void verifySequence(int... keyCodes) {
+        verifySequence(keyCodes, 0, keyCodes.length);
+    }
+
+    private void verifySequence(int[] keyCodes, int offset, int length) {
+        if (length == 0) {
+            return;
+        }
+
+        order.verify(robot).keyPress(keyCodes[offset]);
+        verifySequence(keyCodes, offset + 1, length - 1);
+        order.verify(robot).keyRelease(keyCodes[offset]);
     }
 }
