@@ -10,7 +10,9 @@ public abstract class BotTask {
         this.taskName = taskName;
     }
 
-    public abstract boolean checkIfApplies(ContextMessage contextMessage);
+    public boolean checkIfApplies(ContextMessage contextMessage) {
+        return this.taskName.equals(contextMessage.getTaskName());
+    }
 
     public String getTaskName() {
         return taskName;
