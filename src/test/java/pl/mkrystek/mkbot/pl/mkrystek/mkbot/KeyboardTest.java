@@ -31,35 +31,76 @@ public class KeyboardTest {
     }
 
     @Test
-    public void shouldPressProperKeys() {
+    public void testTypingSmallLetters() {
         //given
-        String sampleMessage = "AbC";
+        String messageWithSmallLetters = "abcdefghijklmnopqrstuvwxyz";
 
         //when
-        keyboard.type(sampleMessage);
+        keyboard.type(messageWithSmallLetters);
 
         //then
-        verifySequencePressed(VK_SHIFT, VK_A);
-        verifySequencePressed(VK_B);
-        verifySequencePressed(VK_SHIFT, VK_C);
+        for (int i = VK_A; i <= VK_Z; i++) {
+            verifyCharacterTyped(i);
+        }
         verifyNoMoreInteractions(robot);
     }
 
-    private void verifySequencePressed(int... sequence) {
-        verifySequence(sequence);
+    @Test
+    public void testTypingBigLetters() {
+        //given
+        String messageWithBigLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        //when
+        keyboard.type(messageWithBigLetters);
+
+        //then
+        for (int i = VK_A; i <= VK_Z; i++) {
+            verifyCharacterTypedWithShift(i);
+        }
+        verifyNoMoreInteractions(robot);
     }
 
-    private void verifySequence(int... keyCodes) {
-        verifySequence(keyCodes, 0, keyCodes.length);
+    @Test
+    public void testTypingNumbers() {
+        //given
+        String messageWithNumbers = "0123456789";
+
+        //when
+        keyboard.type(messageWithNumbers);
+
+        //then
+        for (int i = VK_0; i <= VK_9; i++) {
+            verifyCharacterTyped(i);
+        }
+        verifyNoMoreInteractions(robot);
     }
 
-    private void verifySequence(int[] keyCodes, int offset, int length) {
-        if (length == 0) {
-            return;
+    @Test
+    public void testTypingSpecialCharactersUnderNumbers() {
+        //given
+        String messageWithSpecialCharacters = ")!@#$%^&*(";
+
+        //when
+        keyboard.type(messageWithSpecialCharacters);
+
+        //then
+        for (int i = VK_0; i <= VK_9; i++) {
+            verifyCharacterTypedWithShift(i);
+        }
+        verifyNoMoreInteractions(robot);
+    }
+
+    private void verifyCharacterTypedWithShift(int keyCode) {
+        verifyCharacterTyped(VK_SHIFT, keyCode);
+    }
+
+    private void verifyCharacterTyped(int... keyCodes) {
+        for (int keyCode : keyCodes) {
+            order.verify(robot).keyPress(keyCode);
         }
 
-        order.verify(robot).keyPress(keyCodes[offset]);
-        verifySequence(keyCodes, offset + 1, length - 1);
-        order.verify(robot).keyRelease(keyCodes[offset]);
+        for (int i = keyCodes.length - 1; i >= 0; i--) {
+            order.verify(robot).keyRelease(keyCodes[i]);
+        }
     }
 }
