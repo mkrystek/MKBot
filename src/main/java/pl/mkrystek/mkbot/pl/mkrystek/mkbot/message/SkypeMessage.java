@@ -1,12 +1,12 @@
 package pl.mkrystek.mkbot.pl.mkrystek.mkbot.message;
 
-public class ContextMessage {
+public class SkypeMessage {
 
     private String username;
     private String taskName;
     private String messageBody;
 
-    public ContextMessage(String username, String taskName, String messageBody) {
+    public SkypeMessage(String username, String taskName, String messageBody) {
         this.username = username;
         this.taskName = taskName;
         this.messageBody = messageBody;

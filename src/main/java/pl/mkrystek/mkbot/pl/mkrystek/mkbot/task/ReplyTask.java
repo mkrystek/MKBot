@@ -1,6 +1,6 @@
 package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
 
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.message.ContextMessage;
+import pl.mkrystek.mkbot.pl.mkrystek.mkbot.message.SkypeMessage;
 
 public abstract class ReplyTask extends BotTask {
 
@@ -8,5 +8,5 @@ public abstract class ReplyTask extends BotTask {
         super(taskName);
     }
 
-    public abstract void performAction(ContextMessage contextMessage);
+    public abstract void performAction(SkypeMessage skypeMessage);
 }
