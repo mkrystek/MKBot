@@ -29,144 +29,126 @@ public class Keyboard {
     }
 
     private void type(char character) {
+        int characterType = Character.getType(character);
         int asciiCode = (int) character;
 
-        if (isNumber(asciiCode)) {
+        if (characterType == Character.DECIMAL_DIGIT_NUMBER) {
             doType(asciiCode);
-            return;
-        } else if (isSmallLetter(asciiCode)) {
+        } else if (characterType == Character.LOWERCASE_LETTER) {
             doType(VK_A + (asciiCode - 0x61));
-            return;
-        } else if (isBigLetter(asciiCode)) {
+        } else if (characterType == Character.UPPERCASE_LETTER) {
             doType(VK_SHIFT, asciiCode);
-            return;
+        } else {
+            switch (character) {
+                case '`':
+                    doType(VK_BACK_QUOTE);
+                    break;
+                case '-':
+                    doType(VK_MINUS);
+                    break;
+                case '=':
+                    doType(VK_EQUALS);
+                    break;
+                case '~':
+                    doType(VK_SHIFT, VK_BACK_QUOTE);
+                    break;
+                case '!':
+                    doType(VK_SHIFT, VK_1);
+                    break;
+                case '@':
+                    doType(VK_SHIFT, VK_2);
+                    break;
+                case '#':
+                    doType(VK_SHIFT, VK_3);
+                    break;
+                case '$':
+                    doType(VK_SHIFT, VK_4);
+                    break;
+                case '%':
+                    doType(VK_SHIFT, VK_5);
+                    break;
+                case '^':
+                    doType(VK_SHIFT, VK_6);
+                    break;
+                case '&':
+                    doType(VK_SHIFT, VK_7);
+                    break;
+                case '*':
+                    doType(VK_SHIFT, VK_8);
+                    break;
+                case '(':
+                    doType(VK_SHIFT, VK_9);
+                    break;
+                case ')':
+                    doType(VK_SHIFT, VK_0);
+                    break;
+                case '_':
+                    doType(VK_SHIFT, VK_MINUS);
+                    break;
+                case '+':
+                    doType(VK_SHIFT, VK_EQUALS);
+                    break;
+                case '\t':
+                    doType(VK_TAB);
+                    break;
+                case '\n':
+                    doType(VK_ENTER);
+                    break;
+                case '[':
+                    doType(VK_OPEN_BRACKET);
+                    break;
+                case ']':
+                    doType(VK_CLOSE_BRACKET);
+                    break;
+                case '\\':
+                    doType(VK_BACK_SLASH);
+                    break;
+                case '{':
+                    doType(VK_SHIFT, VK_OPEN_BRACKET);
+                    break;
+                case '}':
+                    doType(VK_SHIFT, VK_CLOSE_BRACKET);
+                    break;
+                case '|':
+                    doType(VK_SHIFT, VK_BACK_SLASH);
+                    break;
+                case ';':
+                    doType(VK_SEMICOLON);
+                    break;
+                case ':':
+                    doType(VK_SHIFT, VK_SEMICOLON);
+                    break;
+                case '\'':
+                    doType(VK_QUOTE);
+                    break;
+                case '"':
+                    doType(VK_SHIFT, VK_QUOTE);
+                    break;
+                case ',':
+                    doType(VK_COMMA);
+                    break;
+                case '<':
+                    doType(VK_SHIFT, VK_COMMA);
+                    break;
+                case '.':
+                    doType(VK_PERIOD);
+                    break;
+                case '>':
+                    doType(VK_SHIFT, VK_PERIOD);
+                    break;
+                case '/':
+                    doType(VK_SLASH);
+                    break;
+                case '?':
+                    doType(VK_SHIFT, VK_SLASH);
+                    break;
+                case ' ':
+                    doType(VK_SPACE);
+                    break;
+                default:
+                    throw new IllegalArgumentException("Cannot type character " + character);
+            }
         }
-
-        switch (character) {
-            case '`':
-                doType(VK_BACK_QUOTE);
-                break;
-            case '-':
-                doType(VK_MINUS);
-                break;
-            case '=':
-                doType(VK_EQUALS);
-                break;
-            case '~':
-                doType(VK_SHIFT, VK_BACK_QUOTE);
-                break;
-            case '!':
-                doType(VK_SHIFT, VK_1);
-                break;
-            case '@':
-                doType(VK_SHIFT, VK_2);
-                break;
-            case '#':
-                doType(VK_SHIFT, VK_3);
-                break;
-            case '$':
-                doType(VK_SHIFT, VK_4);
-                break;
-            case '%':
-                doType(VK_SHIFT, VK_5);
-                break;
-            case '^':
-                doType(VK_SHIFT, VK_6);
-                break;
-            case '&':
-                doType(VK_SHIFT, VK_7);
-                break;
-            case '*':
-                doType(VK_SHIFT, VK_8);
-                break;
-            case '(':
-                doType(VK_SHIFT, VK_9);
-                break;
-            case ')':
-                doType(VK_SHIFT, VK_0);
-                break;
-            case '_':
-                doType(VK_SHIFT, VK_MINUS);
-                break;
-            case '+':
-                doType(VK_SHIFT, VK_EQUALS);
-                break;
-            case '\t':
-                doType(VK_TAB);
-                break;
-            case '\n':
-                doType(VK_ENTER);
-                break;
-            case '[':
-                doType(VK_OPEN_BRACKET);
-                break;
-            case ']':
-                doType(VK_CLOSE_BRACKET);
-                break;
-            case '\\':
-                doType(VK_BACK_SLASH);
-                break;
-            case '{':
-                doType(VK_SHIFT, VK_OPEN_BRACKET);
-                break;
-            case '}':
-                doType(VK_SHIFT, VK_CLOSE_BRACKET);
-                break;
-            case '|':
-                doType(VK_SHIFT, VK_BACK_SLASH);
-                break;
-            case ';':
-                doType(VK_SEMICOLON);
-                break;
-            case ':':
-                doType(VK_SHIFT, VK_SEMICOLON);
-                break;
-            case '\'':
-                doType(VK_QUOTE);
-                break;
-            case '"':
-                doType(VK_SHIFT, VK_QUOTE);
-                break;
-            case ',':
-                doType(VK_COMMA);
-                break;
-            case '<':
-                doType(VK_SHIFT, VK_COMMA);
-                break;
-            case '.':
-                doType(VK_PERIOD);
-                break;
-            case '>':
-                doType(VK_SHIFT, VK_PERIOD);
-                break;
-            case '/':
-                doType(VK_SLASH);
-                break;
-            case '?':
-                doType(VK_SHIFT, VK_SLASH);
-                break;
-            case ' ':
-                doType(VK_SPACE);
-                break;
-            default:
-                throw new IllegalArgumentException("Cannot type character " + character);
-        }
-    }
-
-    private boolean isNumber(int asciiCode) {
-        return between(asciiCode, 0x30, 0x39);
-    }
-
-    private boolean isSmallLetter(int asciiCode) {
-        return between(asciiCode, 0x61, 0x7A);
-    }
-
-    private boolean isBigLetter(int asciiCode) {
-        return between(asciiCode, 0x41, 0x5A);
-    }
-
-    private boolean between(int number, int leftBoundary, int rightBoundary) {
-        return number >= leftBoundary && number <= rightBoundary;
     }
 
     private void doType(int... keyCodes) {
