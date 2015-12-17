@@ -1,7 +1,5 @@
 package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import java.util.List;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -16,10 +14,9 @@ public class TaskExecutionEngine {
         this.taskScheduler = taskScheduler;
     }
 
-    public void init() {
-        //TODO better way of loading tasks (annotations???)
-        replyTasks = newArrayList();
-        scheduledTasks = newArrayList();
+    public void init(List<ReplyTask> replyTasks, List<ScheduledTask> scheduledTasks) {
+        this.replyTasks = replyTasks;
+        this.scheduledTasks = scheduledTasks;
     }
 
     public void start() {
