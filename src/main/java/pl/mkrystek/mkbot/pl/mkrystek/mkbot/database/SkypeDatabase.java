@@ -64,7 +64,7 @@ public class SkypeDatabase {
         List<String> newMessages = newArrayList();
         try {
             PreparedStatement ps = databaseConnection
-                .prepareStatement("SELECT from_dispname, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author != ?");
+                .prepareStatement("SELECT from_dispname, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author <> ?");
             ps.setInt(1, conversationId);
             ps.setLong(2, lastMessageId);
             ps.setString(3, BotProperties.getSkypeUsername());
