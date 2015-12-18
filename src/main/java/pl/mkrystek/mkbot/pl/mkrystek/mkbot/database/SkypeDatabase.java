@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
+
 import org.sqlite.JDBC;
 import pl.mkrystek.mkbot.pl.mkrystek.mkbot.BotProperties;
 
@@ -16,7 +17,7 @@ public class SkypeDatabase {
     private Connection databaseConnection;
     private List<String> chatParticipants;
     private Integer conversationId;
-    private int lastMessageId;
+    private long lastMessageId;
 
     public SkypeDatabase() {
         try {
@@ -44,33 +45,40 @@ public class SkypeDatabase {
         rs.close();
     }
 
-    private void updateLastMessageId() throws SQLException {
-        PreparedStatement ps = databaseConnection.prepareStatement("SELECT inbox_message_id FROM Conversations WHERE displayname = ?");
-        ps.setString(1, BotProperties.getChatName());
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            lastMessageId = rs.getInt("inbox_message_id");
+    private void updateLastMessageId() {
+        try {
+            PreparedStatement ps = databaseConnection.prepareStatement("SELECT max(id) as 'last_id' FROM messages where convo_id = ?");
+            ps.setLong(1, conversationId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                lastMessageId = rs.getLong("last_id");
+            }
+            rs.close();
+            ps.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        ps.close();
-        rs.close();
     }
 
     public List<String> getNewMessages() {
         List<String> newMessages = newArrayList();
         try {
             PreparedStatement ps = databaseConnection
-                .prepareStatement("SELECT from_dispname, body_xml FROM Messages WHERE convo_id = ? AND id > ?");
+                .prepareStatement("SELECT from_dispname, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author != ?");
             ps.setInt(1, conversationId);
-            ps.setInt(2, lastMessageId);
+            ps.setLong(2, lastMessageId);
+            ps.setString(3, BotProperties.getSkypeUsername());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 newMessages.add(String.format("%s - %s", rs.getString("from_dispname"), rs.getString("body_xml")));
             }
             ps.close();
             rs.close();
-            updateLastMessageId();
         } catch (SQLException e) {
             //do nothing, happens
+            e.printStackTrace();
+        } finally {
+            updateLastMessageId();
         }
 
         return newMessages;
