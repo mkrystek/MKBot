@@ -17,6 +17,8 @@ public final class BotProperties {
     private static String chatName;
     private static String pollingFrequency;
     private static String skypeUsername;
+    private static String replyTasksToLoad;
+    private static String scheduledTasksToLoad;
 
     static {
         props = new Properties();
@@ -27,6 +29,8 @@ public final class BotProperties {
             skypeUsername = props.getProperty("skype_username");
             chatName = props.getProperty("chat_name");
             pollingFrequency = props.getProperty("polling_frequency");
+            replyTasksToLoad = props.getProperty("reply_tasks_to_load");
+            scheduledTasksToLoad = props.getProperty("scheduled_tasks_to_load");
             propertiesFile.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,5 +51,13 @@ public final class BotProperties {
 
     public static String getPollingFrequency() {
         return pollingFrequency;
+    }
+
+    public static String getReplyTasksToLoad() {
+        return replyTasksToLoad;
+    }
+
+    public static String getScheduledTasksToLoad() {
+        return scheduledTasksToLoad;
     }
 }
