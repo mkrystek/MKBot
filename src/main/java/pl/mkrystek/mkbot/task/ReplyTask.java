@@ -8,5 +8,5 @@ public abstract class ReplyTask extends BotTask {
         super(taskName);
     }
 
-    public abstract void performAction(SkypeMessage skypeMessage);
+    public abstract String performAction(SkypeMessage skypeMessage);
 }

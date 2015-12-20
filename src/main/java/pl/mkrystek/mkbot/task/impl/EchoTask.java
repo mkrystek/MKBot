@@ -12,7 +12,7 @@ public class EchoTask extends ReplyTask {
     }
 
     @Override
-    public void performAction(SkypeMessage skypeMessage) {
-
+    public String performAction(SkypeMessage skypeMessage) {
+        return String.format("@%s - %s", skypeMessage.getUsername(), skypeMessage.getMessageBody());
     }
 }
