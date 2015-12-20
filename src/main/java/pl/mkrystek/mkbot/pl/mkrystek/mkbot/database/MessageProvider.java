@@ -12,14 +12,14 @@ import java.util.Properties;
 import org.sqlite.JDBC;
 import pl.mkrystek.mkbot.pl.mkrystek.mkbot.BotProperties;
 
-public class SkypeDatabase {
+public class MessageProvider {
 
     private Connection databaseConnection;
     private List<String> chatParticipants;
     private Integer conversationId;
     private long lastMessageId;
 
-    public SkypeDatabase() {
+    public MessageProvider() {
         try {
             databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
             extractProperties();
