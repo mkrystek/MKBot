@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot;
+package pl.mkrystek.mkbot;
 
 import static java.awt.event.KeyEvent.*;
 

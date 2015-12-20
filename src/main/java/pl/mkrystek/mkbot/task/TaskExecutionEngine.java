@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
+package pl.mkrystek.mkbot.task;
 
 import java.util.List;
 import org.quartz.Scheduler;

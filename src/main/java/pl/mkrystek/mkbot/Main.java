@@ -2,7 +2,6 @@ package pl.mkrystek.mkbot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.BotApplication;
 
 public class Main {
 

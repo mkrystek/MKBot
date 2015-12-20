@@ -1,10 +1,10 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task;
+package pl.mkrystek.mkbot.task;
 
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.BotProperties;
+import pl.mkrystek.mkbot.BotProperties;
 
 public class TaskProvider {
 

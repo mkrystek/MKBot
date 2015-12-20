@@ -1,7 +1,7 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot.task.impl;
+package pl.mkrystek.mkbot.task.impl;
 
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.message.SkypeMessage;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.task.ReplyTask;
+import pl.mkrystek.mkbot.message.SkypeMessage;
+import pl.mkrystek.mkbot.task.ReplyTask;
 
 public class EchoTask extends ReplyTask {
 

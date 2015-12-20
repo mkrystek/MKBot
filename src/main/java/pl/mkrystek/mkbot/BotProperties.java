@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot;
+package pl.mkrystek.mkbot;
 
 import java.io.FileInputStream;
 import java.io.IOException;

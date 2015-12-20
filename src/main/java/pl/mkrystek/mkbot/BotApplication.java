@@ -1,10 +1,10 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot;
+package pl.mkrystek.mkbot;
 
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.task.TaskExecutionEngine;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.task.TaskProvider;
+import pl.mkrystek.mkbot.task.TaskExecutionEngine;
+import pl.mkrystek.mkbot.task.TaskProvider;
 
 public class BotApplication {
 

@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot.database;
+package pl.mkrystek.mkbot.database;
 
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.sqlite.JDBC;
-import pl.mkrystek.mkbot.pl.mkrystek.mkbot.BotProperties;
+import pl.mkrystek.mkbot.BotProperties;
 
 public class MessageProvider {
 

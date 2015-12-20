@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.pl.mkrystek.mkbot.message;
+package pl.mkrystek.mkbot.message;
 
 public class SkypeMessage {
 
