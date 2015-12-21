@@ -24,9 +24,23 @@ public class MessageParserTest {
         SkypeMessage parsedMessage = parser.parseSkypeMessage(rawMessage);
 
         //then
-        assertThat(parsedMessage.getUsername()).isNotEmpty().contains("some_user");
-        assertThat(parsedMessage.getTaskName()).isNotEmpty().contains("some_task");
-        assertThat(parsedMessage.getMessageBody()).isNotEmpty().contains("some message body");
+        assertThat(parsedMessage.getUsername()).isNotEmpty().isEqualTo("some_user");
+        assertThat(parsedMessage.getTaskName()).isNotEmpty().isEqualTo("some_task");
+        assertThat(parsedMessage.getMessageBody()).isNotEmpty().isEqualTo("some message body");
+    }
+
+    @Test
+    public void shouldProperlyParseMessageWithLongWhitespace() {
+        //given
+        String rawMessageWithLongWhitespace = "some.user -          some_task               body from message with long whitespace";
+
+        //when
+        SkypeMessage parsedMessage = parser.parseSkypeMessage(rawMessageWithLongWhitespace);
+
+        //then
+        assertThat(parsedMessage.getUsername()).isNotEmpty().isEqualTo("some.user");
+        assertThat(parsedMessage.getTaskName()).isNotEmpty().isEqualTo("some_task");
+        assertThat(parsedMessage.getMessageBody()).isNotEmpty().isEqualTo("body from message with long whitespace");
     }
 
     @Test
