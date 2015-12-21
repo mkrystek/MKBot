@@ -1,12 +1,12 @@
 package pl.mkrystek.mkbot;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public final class BotProperties {
 
-    private static final String PROPERTIES_PATH = "src/main/resources/config.properties";
+    private static final String PROPERTIES_FILE_NAME = "config.properties";
 
     private BotProperties() {
     }
@@ -23,7 +23,7 @@ public final class BotProperties {
     static {
         props = new Properties();
         try {
-            FileInputStream propertiesFile = new FileInputStream(PROPERTIES_PATH);
+            InputStream propertiesFile = BotProperties.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
             props.load(propertiesFile);
             skypeDbPath = props.getProperty("skype_db_path");
             skypeUsername = props.getProperty("skype_username");
