@@ -30,7 +30,7 @@ public class MessageProvider {
             extractParticipants();
         } catch (SQLException e) {
             LOGGER.error("Problem creating MessageProvider: ", e);
-            throw e;
+            throw new Exception(e);
         }
         updateLastMessageId();
     }
