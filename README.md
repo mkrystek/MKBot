@@ -3,6 +3,7 @@ MKBot
 Skype Bot written in Java
 
 * [Disclaimer](#disclaimer)
+* [How It Works](#how)
 * [Goals and Features](#goals)
 * [Requirements](#requirements)
 * [Usage](#usage)
@@ -12,8 +13,14 @@ Skype Bot written in Java
 
 <a name="disclaimer"/>Disclaimer
 ---
-Still in very alpha phase :)
-Use at your own risk, sometimes improper behavior may cause creating additional chats and/or unnecessary spamming people from your contacts. 
+
+ Still in very alpha phase, use at your own risk :)
+ Sometimes improper behavior may cause creating additional chats and/or unnecessary spamming people from your contacts.
+ People might not like when someone spams their Skype window.
+
+## <a name="how"/>How It Works
+
+TODO
 
 ## <a name="goals"/>Goals and Features
 
