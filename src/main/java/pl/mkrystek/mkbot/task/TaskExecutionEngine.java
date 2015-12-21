@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
 public class TaskExecutionEngine {
@@ -40,7 +41,7 @@ public class TaskExecutionEngine {
                 LOGGER.debug("Writing message on skype: {}", reply);
                 skypeWindow.writeMessage(reply);
             }
-        })), 0, 100, TimeUnit.MILLISECONDS);
+        })), 0, BotProperties.getPollingFrequency(), TimeUnit.MILLISECONDS);
     }
 
     public void shutdown() {

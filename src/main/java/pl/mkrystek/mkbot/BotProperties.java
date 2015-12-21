@@ -15,7 +15,7 @@ public final class BotProperties {
 
     private static String skypeDbPath;
     private static String chatName;
-    private static String pollingFrequency;
+    private static Long pollingFrequency;
     private static String skypeUsername;
     private static String replyTasksToLoad;
     private static String scheduledTasksToLoad;
@@ -28,7 +28,7 @@ public final class BotProperties {
             skypeDbPath = props.getProperty("skype_db_path");
             skypeUsername = props.getProperty("skype_username");
             chatName = props.getProperty("chat_name");
-            pollingFrequency = props.getProperty("polling_frequency");
+            pollingFrequency = Long.parseLong(props.getProperty("polling_frequency"));
             replyTasksToLoad = props.getProperty("reply_tasks_to_load");
             scheduledTasksToLoad = props.getProperty("scheduled_tasks_to_load");
             propertiesFile.close();
@@ -49,7 +49,7 @@ public final class BotProperties {
         return chatName;
     }
 
-    public static String getPollingFrequency() {
+    public static Long getPollingFrequency() {
         return pollingFrequency;
     }
 
