@@ -19,12 +19,20 @@ public class Keyboard {
 
     public void sendMessage(CharSequence characters) {
         int length = characters.length();
+        boolean problem = false;
         for (int i = 0; i < length; i++) {
             try {
                 type(characters.charAt(i));
             } catch (RuntimeException e) {
                 LOGGER.error("Problem typing character '" + characters.charAt(i) + "'", e);
+                problem = true;
             }
+        }
+        if (problem) {
+            doType(VK_CONTROL, VK_A);
+            doType(VK_BACK_SPACE);
+        } else {
+            doType(VK_ENTER);
         }
     }
 

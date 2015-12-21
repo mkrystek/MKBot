@@ -42,6 +42,7 @@ public class KeyboardTest {
         for (int i = VK_A; i <= VK_Z; i++) {
             verifyCharacterTyped(i);
         }
+        verifyCharacterTyped(VK_ENTER);
         verifyNoMoreInteractions(robot);
     }
 
@@ -57,6 +58,7 @@ public class KeyboardTest {
         for (int i = VK_A; i <= VK_Z; i++) {
             verifyCharacterTypedWithShift(i);
         }
+        verifyCharacterTyped(VK_ENTER);
         verifyNoMoreInteractions(robot);
     }
 
@@ -72,6 +74,7 @@ public class KeyboardTest {
         for (int i = VK_0; i <= VK_9; i++) {
             verifyCharacterTyped(i);
         }
+        verifyCharacterTyped(VK_ENTER);
         verifyNoMoreInteractions(robot);
     }
 
@@ -87,6 +90,7 @@ public class KeyboardTest {
         for (int i = VK_0; i <= VK_9; i++) {
             verifyCharacterTypedWithShift(i);
         }
+        verifyCharacterTyped(VK_ENTER);
         verifyNoMoreInteractions(robot);
     }
 
