@@ -1,25 +1,23 @@
 package pl.mkrystek.mkbot;
 
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.impl.StdSchedulerFactory;
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+
+import java.awt.Robot;
+
 import pl.mkrystek.mkbot.task.TaskExecutionEngine;
 import pl.mkrystek.mkbot.task.TaskProvider;
+import pl.mkrystek.mkbot.window.SkypeWindow;
 
 public class BotApplication {
 
     private final TaskExecutionEngine taskExecutionEngine;
     private final TaskProvider taskProvider;
+    private final SkypeWindow skypeWindow;
 
-    public BotApplication() {
-        try {
-            Scheduler taskScheduler = StdSchedulerFactory.getDefaultScheduler();
-            taskExecutionEngine = new TaskExecutionEngine(taskScheduler);
-            taskProvider = new TaskProvider();
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    public BotApplication() throws Exception {
+        this.skypeWindow = new SkypeWindow(new Robot());
+        this.taskExecutionEngine = new TaskExecutionEngine(newSingleThreadScheduledExecutor(), skypeWindow);
+        this.taskProvider = new TaskProvider();
     }
 
     public void init() {
@@ -27,7 +25,9 @@ public class BotApplication {
     }
 
     public void startApplication() {
-        taskExecutionEngine.start();
+        if (skypeWindow.bringToForeground()) {
+            taskExecutionEngine.start();
+        }
     }
 
     public void shutdown() {

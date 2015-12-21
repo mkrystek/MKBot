@@ -13,7 +13,7 @@ public class Main {
             application = new BotApplication();
             application.init();
             application.startApplication();
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             LOGGER.error("Error : ", e);
         } finally {
             if (application != null) application.shutdown();

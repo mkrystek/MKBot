@@ -1,17 +1,24 @@
 package pl.mkrystek.mkbot.task;
 
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import pl.mkrystek.mkbot.window.SkypeWindow;
 
 public class TaskExecutionEngine {
 
-    private final Scheduler scheduler;
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutionEngine.class);
+
+    private final ScheduledExecutorService scheduler;
+    private final SkypeWindow skypeWindow;
     private List<ReplyTask> replyTasks;
     private List<ScheduledTask> scheduledTasks;
 
-    public TaskExecutionEngine(final Scheduler scheduler) {
+    public TaskExecutionEngine(ScheduledExecutorService scheduler, SkypeWindow skypeWindow) {
+        this.skypeWindow = skypeWindow;
         this.scheduler = scheduler;
     }
 
@@ -21,18 +28,14 @@ public class TaskExecutionEngine {
     }
 
     public void start() {
-        try {
-            scheduler.start();
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
+        scheduler.scheduleAtFixedRate(() -> skypeWindow.getNewMessages().forEach(skypeMessage -> replyTasks.forEach(replyTask -> {
+            if (replyTask.checkIfApplies(skypeMessage)) {
+                LOGGER.debug("Writing message on skype: {}", replyTask.performAction(skypeMessage));
+            }
+        })), 0, 1, TimeUnit.SECONDS);
     }
 
     public void shutdown() {
-        try {
-            scheduler.shutdown(false);
-        } catch (SchedulerException e) {
-            e.printStackTrace();
-        }
+        scheduler.shutdownNow();
     }
 }
