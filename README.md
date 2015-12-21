@@ -1,6 +1,11 @@
 MKBot
 ===
-Skype Bot written in Java
+
+MKBot is a Skype bot written in Java. Since there is no library to integrate with Skype desktop client,
+it uses somewhat "weird" ways to do its job (but it works!). To learn more about how it works, see [this](#how) section.
+To learn how to use it, visit [this](#usage) section.
+
+Have fun!
 
 * [Disclaimer](#disclaimer)
 * [How It Works](#how)
@@ -13,10 +18,9 @@ Skype Bot written in Java
 
 <a name="disclaimer"/>Disclaimer
 ---
-
- Still in very alpha phase, use at your own risk :)
- Sometimes improper behavior may cause creating additional chats and/or unnecessary spamming people from your contacts.
- People might not like when someone spams their Skype window.
+ Still in very alpha phase, use at your own risk :)  
+ Sometimes improper behavior may cause creating additional chats and/or unnecessary spamming people from your contacts.  
+ People might not like when someone spams their Skype window.  
 
 ## <a name="how"/>How It Works
 
