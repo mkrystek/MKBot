@@ -5,7 +5,7 @@ import pl.mkrystek.mkbot.task.ReplyTask;
 
 public class EchoTask extends ReplyTask {
 
-    private static final String TASK_NAME = "Echo";
+    private static final String TASK_NAME = "echo";
 
     public EchoTask() {
         super(TASK_NAME);
