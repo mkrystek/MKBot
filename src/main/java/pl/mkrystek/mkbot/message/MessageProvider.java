@@ -26,7 +26,8 @@ public class MessageProvider {
     public MessageProvider() throws Exception {
         try {
             databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
-            extractProperties();
+            extractConversationId();
+            extractParticipants();
         } catch (SQLException e) {
             LOGGER.error("Problem creating MessageProvider: ", e);
             throw e;
@@ -34,17 +35,24 @@ public class MessageProvider {
         updateLastMessageId();
     }
 
-    private void extractProperties() throws SQLException {
-        PreparedStatement ps = databaseConnection.prepareStatement("SELECT participants, conv_dbid FROM Chats WHERE topic = ?");
+    private void extractConversationId() throws SQLException {
+        PreparedStatement ps = databaseConnection.prepareStatement("SELECT id FROM Conversations WHERE displayname = ?");
         ps.setString(1, BotProperties.getChatName());
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            String participants = rs.getString("participants");
-            chatParticipants = newArrayList(participants.split(" "));
-            conversationId = rs.getInt("conv_dbid");
-        } else {
-            //chat name is not a group conversation
-            //TODO handle direct conversations later
+            conversationId = rs.getInt("id");
+        }
+        ps.close();
+        rs.close();
+    }
+
+    private void extractParticipants() throws SQLException {
+        chatParticipants = newArrayList();
+        PreparedStatement ps = databaseConnection.prepareStatement("SELECT identity FROM Participants WHERE convo_id = ?");
+        ps.setInt(1, conversationId);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            chatParticipants.add(rs.getString("identity"));
         }
         ps.close();
         rs.close();
@@ -52,7 +60,7 @@ public class MessageProvider {
 
     private void updateLastMessageId() {
         try {
-            PreparedStatement ps = databaseConnection.prepareStatement("SELECT max(id) AS 'last_id' FROM messages WHERE convo_id = ?");
+            PreparedStatement ps = databaseConnection.prepareStatement("SELECT max(id) AS 'last_id' FROM Messages WHERE convo_id = ?");
             ps.setLong(1, conversationId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
