@@ -45,10 +45,10 @@ public class SkypeWindow {
             try {
                 String botNamePrompt = "!MKBot";//TODO extract bot name to config
                 if (rawMessage.contains(botNamePrompt)) {
-                    skypeMessages.add(messageParser.parseSkypeMessage(rawMessage.replace(botNamePrompt + " ", "")));
+                    skypeMessages.add(messageParser.parseSkypeMessage(rawMessage.replace(botNamePrompt, "")));
                 }
             } catch (Exception e) {
-                LOGGER.warn("Problem with parsing rawMessage: {}, reason: {}. Ignoring...", rawMessage, e);
+                LOGGER.warn("Problem with parsing rawMessage: {}, reason: {}. Ignoring...", rawMessage, e.getMessage());
             }
         }
         return skypeMessages;
