@@ -19,14 +19,10 @@ public class MessageProvider {
     private Integer conversationId;
     private long lastMessageId;
 
-    public MessageProvider() {
-        try {
-            databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
-            extractProperties();
-            updateLastMessageId();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public MessageProvider() throws SQLException {
+        databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
+        extractProperties();
+        updateLastMessageId();
     }
 
     private void extractProperties() throws SQLException {
@@ -47,7 +43,7 @@ public class MessageProvider {
 
     private void updateLastMessageId() {
         try {
-            PreparedStatement ps = databaseConnection.prepareStatement("SELECT max(id) as 'last_id' FROM messages where convo_id = ?");
+            PreparedStatement ps = databaseConnection.prepareStatement("SELECT max(id) AS 'last_id' FROM messages WHERE convo_id = ?");
             ps.setLong(1, conversationId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
