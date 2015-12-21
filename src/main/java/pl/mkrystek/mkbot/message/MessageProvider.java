@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot.database;
+package pl.mkrystek.mkbot.message;
 
 import static com.google.common.collect.Lists.newArrayList;
 
