@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot;
+package pl.mkrystek.mkbot.window;
 
 import static java.awt.event.KeyEvent.*;
 
@@ -17,7 +17,7 @@ public class Keyboard {
         this.robot = robot;
     }
 
-    public void type(CharSequence characters) {
+    public void sendMessage(CharSequence characters) {
         int length = characters.length();
         for (int i = 0; i < length; i++) {
             try {

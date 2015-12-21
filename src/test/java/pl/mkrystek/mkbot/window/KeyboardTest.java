@@ -1,4 +1,4 @@
-package pl.mkrystek.mkbot;
+package pl.mkrystek.mkbot.window;
 
 import static org.mockito.Mockito.inOrder;
 import static java.awt.event.KeyEvent.*;
@@ -36,7 +36,7 @@ public class KeyboardTest {
         String messageWithSmallLetters = "abcdefghijklmnopqrstuvwxyz";
 
         //when
-        keyboard.type(messageWithSmallLetters);
+        keyboard.sendMessage(messageWithSmallLetters);
 
         //then
         for (int i = VK_A; i <= VK_Z; i++) {
@@ -51,7 +51,7 @@ public class KeyboardTest {
         String messageWithBigLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         //when
-        keyboard.type(messageWithBigLetters);
+        keyboard.sendMessage(messageWithBigLetters);
 
         //then
         for (int i = VK_A; i <= VK_Z; i++) {
@@ -66,7 +66,7 @@ public class KeyboardTest {
         String messageWithNumbers = "0123456789";
 
         //when
-        keyboard.type(messageWithNumbers);
+        keyboard.sendMessage(messageWithNumbers);
 
         //then
         for (int i = VK_0; i <= VK_9; i++) {
@@ -81,7 +81,7 @@ public class KeyboardTest {
         String messageWithSpecialCharacters = ")!@#$%^&*(";
 
         //when
-        keyboard.type(messageWithSpecialCharacters);
+        keyboard.sendMessage(messageWithSpecialCharacters);
 
         //then
         for (int i = VK_0; i <= VK_9; i++) {
