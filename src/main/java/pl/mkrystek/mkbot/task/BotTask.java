@@ -1,20 +1,23 @@
 package pl.mkrystek.mkbot.task;
 
+import static com.google.common.collect.Lists.newArrayList;
+
+import java.util.List;
 import pl.mkrystek.mkbot.message.SkypeMessage;
 
 public abstract class BotTask {
 
-    protected final String taskName;
+    protected final List<String> validNames;
 
-    public BotTask(String taskName) {
-        this.taskName = taskName;
+    public BotTask(String... validNames) {
+        this.validNames = newArrayList(validNames);
     }
 
     public boolean checkIfApplies(SkypeMessage skypeMessage) {
-        return this.taskName.equals(skypeMessage.getTaskName());
+        return validNames.contains(skypeMessage.getTaskName());
     }
 
-    public String getTaskName() {
-        return taskName;
+    public List<String> getTaskValidNames() {
+        return validNames;
     }
 }
