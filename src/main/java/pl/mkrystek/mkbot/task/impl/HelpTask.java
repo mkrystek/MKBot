@@ -14,7 +14,7 @@ public class HelpTask extends ReplyTask {
 
     @Override
     public String performAction(SkypeMessage skypeMessage) {
-        return "Help requested! Sample bot usage: \"!MKBot <commandName> <body>\n" +
+        return "Help requested! Sample bot usage: \"!MKBot <commandName> <body>\"\n" +
             "If you want to know more about particular command, type \"!MKBot <commandName> " + COMMAND_HELP_BODY + "\"";
     }
 }
