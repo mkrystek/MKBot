@@ -17,6 +17,10 @@ public abstract class BotTask {
         return validNames.contains(skypeMessage.getTaskName());
     }
 
+    public String performHelpAction(SkypeMessage skypeMessage) {
+        return String.format("No help provided for command \"%s\"", skypeMessage.getTaskName());
+    }
+
     public List<String> getTaskValidNames() {
         return validNames;
     }

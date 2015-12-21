@@ -11,6 +11,7 @@ import pl.mkrystek.mkbot.window.SkypeWindow;
 public class TaskExecutionEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutionEngine.class);
+    private static final String COMMAND_HELP_BODY = "?";
 
     private final ScheduledExecutorService scheduler;
     private final SkypeWindow skypeWindow;
@@ -30,7 +31,12 @@ public class TaskExecutionEngine {
     public void start() {
         scheduler.scheduleAtFixedRate(() -> skypeWindow.getNewMessages().forEach(skypeMessage -> replyTasks.forEach(replyTask -> {
             if (replyTask.checkIfApplies(skypeMessage)) {
-                String reply = replyTask.performAction(skypeMessage);
+                String reply;
+                if (skypeMessage.getMessageBody().equals(COMMAND_HELP_BODY)) {
+                    reply = replyTask.performHelpAction(skypeMessage);
+                } else {
+                    reply = replyTask.performAction(skypeMessage);
+                }
                 LOGGER.debug("Writing message on skype: {}", reply);
                 skypeWindow.writeMessage(reply);
             }
