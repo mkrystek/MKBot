@@ -32,8 +32,6 @@ Clone repo, modify *config.properties* file accordingly, build jar with dependen
 then run it
 
 > java -jar MKBot-0.1-jar-with-dependencies.jar
- 
- 
 
 ## <a name="configuration"/>Configuration (config.properties file)
  * *skype_db_path* - path to db.main skype database file (will probably be auto-configured in future)
