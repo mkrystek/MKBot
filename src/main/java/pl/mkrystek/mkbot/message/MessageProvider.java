@@ -48,7 +48,7 @@ public class MessageProvider {
 
     private void extractParticipants() throws SQLException {
         chatParticipants = newArrayList();
-        PreparedStatement ps = databaseConnection.prepareStatement("SELECT identity FROM Participants WHERE convo_id = ?");
+        PreparedStatement ps = databaseConnection.prepareStatement("SELECT identity FROM Participants WHERE convo_id = ? AND rank <> 7");
         ps.setInt(1, conversationId);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
