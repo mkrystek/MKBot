@@ -30,9 +30,11 @@ public class TaskExecutionEngine {
     public void start() {
         scheduler.scheduleAtFixedRate(() -> skypeWindow.getNewMessages().forEach(skypeMessage -> replyTasks.forEach(replyTask -> {
             if (replyTask.checkIfApplies(skypeMessage)) {
-                LOGGER.debug("Writing message on skype: {}", replyTask.performAction(skypeMessage));
+                String reply = replyTask.performAction(skypeMessage);
+                LOGGER.debug("Writing message on skype: {}", reply);
+                skypeWindow.writeMessage(reply);
             }
-        })), 0, 1, TimeUnit.SECONDS);
+        })), 0, 100, TimeUnit.MILLISECONDS);
     }
 
     public void shutdown() {
