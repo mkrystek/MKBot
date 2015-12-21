@@ -30,5 +30,6 @@ public class BotApplication {
 
     public void shutdown() {
         taskExecutionEngine.shutdown();
+        skypeWindow.close();
     }
 }

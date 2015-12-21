@@ -72,4 +72,8 @@ public class SkypeWindow {
         String uriString = Joiner.on(";").join(participants);
         return new URI(String.format("skype:%s?chat", uriString));
     }
+
+    public void close() {
+        messageProvider.close();
+    }
 }
