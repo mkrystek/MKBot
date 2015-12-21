@@ -4,9 +4,14 @@ import static com.google.common.collect.Lists.newArrayList;
 
 import java.lang.reflect.Constructor;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pl.mkrystek.mkbot.BotProperties;
 
 public class TaskProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TaskProvider.class);
 
     List<ReplyTask> replyTasks;
     List<ScheduledTask> scheduledTasks;
@@ -28,7 +33,7 @@ public class TaskProvider {
                 Object task = ctor.newInstance();
                 replyTasks.add((ReplyTask) task);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Error loading reply task: ", e);
             }
         }
 
@@ -39,7 +44,7 @@ public class TaskProvider {
                 Object task = ctor.newInstance();
                 scheduledTasks.add((ScheduledTask) task);
             } catch (Exception e) {
-                e.printStackTrace();
+                LOGGER.error("Error loading scheduled task: ", e);
             }
         }
     }
