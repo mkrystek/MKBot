@@ -2,8 +2,6 @@ package pl.mkrystek.mkbot;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
-import java.awt.Robot;
-
 import pl.mkrystek.mkbot.task.TaskExecutionEngine;
 import pl.mkrystek.mkbot.task.TaskProvider;
 import pl.mkrystek.mkbot.window.SkypeWindow;
@@ -15,7 +13,7 @@ public class BotApplication {
     private final SkypeWindow skypeWindow;
 
     public BotApplication() throws Exception {
-        this.skypeWindow = new SkypeWindow(new Robot());
+        this.skypeWindow = new SkypeWindow();
         this.taskExecutionEngine = new TaskExecutionEngine(newSingleThreadScheduledExecutor(), skypeWindow);
         this.taskProvider = new TaskProvider();
     }

@@ -7,12 +7,10 @@ import java.awt.Robot;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.sql.SQLException;
 import java.util.List;
-
+import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.google.common.base.Joiner;
 import pl.mkrystek.mkbot.message.MessageParser;
 import pl.mkrystek.mkbot.message.MessageProvider;
 import pl.mkrystek.mkbot.message.SkypeMessage;
@@ -26,13 +24,13 @@ public class SkypeWindow {
     private MessageProvider messageProvider;
     private MessageParser messageParser;
 
-    public SkypeWindow(Robot robot) throws Exception {
+    public SkypeWindow() throws Exception {
         try {
-            this.robot = robot;
+            this.robot = new Robot();
             this.keyboard = new Keyboard(robot);
             this.messageProvider = new MessageProvider();
             this.messageParser = new MessageParser();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             LOGGER.error("Unable to create SkypeWindow class, reason: ", e);
             throw new Exception("Unable to create SkypeWindow class", e);
         }

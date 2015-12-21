@@ -9,19 +9,28 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sqlite.JDBC;
 import pl.mkrystek.mkbot.BotProperties;
 
 public class MessageProvider {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageProvider.class);
 
     private Connection databaseConnection;
     private List<String> chatParticipants;
     private Integer conversationId;
     private long lastMessageId;
 
-    public MessageProvider() throws SQLException {
-        databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
-        extractProperties();
+    public MessageProvider() throws Exception {
+        try {
+            databaseConnection = JDBC.createConnection(JDBC.PREFIX + BotProperties.getSkypeDbPath(), new Properties());
+            extractProperties();
+        } catch (SQLException e) {
+            LOGGER.error("Problem creating MessageProvider: ", e);
+            throw e;
+        }
         updateLastMessageId();
     }
 
@@ -52,7 +61,7 @@ public class MessageProvider {
             rs.close();
             ps.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Error during updating last message id: ", e);
         }
     }
 
@@ -71,8 +80,7 @@ public class MessageProvider {
             ps.close();
             rs.close();
         } catch (SQLException e) {
-            //do nothing, happens
-            e.printStackTrace();
+            LOGGER.error("Error during new message retrieval: ", e);
         } finally {
             updateLastMessageId();
         }
@@ -86,7 +94,7 @@ public class MessageProvider {
                 databaseConnection.close();
             }
         } catch (SQLException e) {
-
+            LOGGER.error("Error while closing: ", e);
         }
     }
 
