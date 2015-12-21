@@ -77,13 +77,13 @@ public class MessageProvider {
         List<String> newMessages = newArrayList();
         try {
             PreparedStatement ps = databaseConnection
-                .prepareStatement("SELECT from_dispname, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author <> ?");
+                .prepareStatement("SELECT author, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author <> ?");
             ps.setInt(1, conversationId);
             ps.setLong(2, lastMessageId);
             ps.setString(3, BotProperties.getSkypeUsername());
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                newMessages.add(String.format("%s - %s", rs.getString("from_dispname"), rs.getString("body_xml")));
+                newMessages.add(String.format("%s - %s", rs.getString("author"), rs.getString("body_xml")));
             }
             ps.close();
             rs.close();
