@@ -44,6 +44,20 @@ public class MessageParserTest {
     }
 
     @Test
+    public void shouldProperlyParseMessageWithEmptyBody() {
+        //given
+        String rawMessageWithEmptyBody = "some.user - some_task";
+
+        //when
+        SkypeMessage parsedMessage = parser.parseSkypeMessage(rawMessageWithEmptyBody);
+
+        //then
+        assertThat(parsedMessage.getUsername()).isNotEmpty().isEqualTo("some.user");
+        assertThat(parsedMessage.getTaskName()).isNotEmpty().isEqualTo("some_task");
+        assertThat(parsedMessage.getMessageBody()).isEmpty();
+    }
+
+    @Test
     public void shouldThrowErrorForInvalidMessageFormat() {
         //given
         String badMessage = "invalid message";
