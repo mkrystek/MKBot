@@ -12,7 +12,7 @@ import pl.mkrystek.mkbot.window.SkypeWindow;
 public class TaskExecutionEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutionEngine.class);
-    private static final String COMMAND_HELP_BODY = "?";
+    public static final String COMMAND_HELP_BODY = "?";
 
     private final ScheduledExecutorService scheduler;
     private final SkypeWindow skypeWindow;
