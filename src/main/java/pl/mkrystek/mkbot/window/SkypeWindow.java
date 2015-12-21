@@ -61,7 +61,7 @@ public class SkypeWindow {
     public boolean bringToForeground() {
         try {
             Desktop.getDesktop().browse(createSkypeURI());
-            robot.delay(500);
+            robot.delay(3000); //Skype URI is sloooow so we need to delay here
             return true;
         } catch (IOException | URISyntaxException e) {
             return false;
