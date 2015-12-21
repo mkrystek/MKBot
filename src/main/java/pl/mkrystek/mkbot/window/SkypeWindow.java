@@ -11,6 +11,7 @@ import java.util.List;
 import com.google.common.base.Joiner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.message.MessageParser;
 import pl.mkrystek.mkbot.message.MessageProvider;
 import pl.mkrystek.mkbot.message.SkypeMessage;
@@ -69,6 +70,7 @@ public class SkypeWindow {
 
     private URI createSkypeURI() throws URISyntaxException {
         List<String> participants = messageProvider.getChatParticipants();
+        participants.remove(BotProperties.getSkypeUsername());
         String uriString = Joiner.on(";").join(participants);
         return new URI(String.format("skype:%s?chat", uriString));
     }
