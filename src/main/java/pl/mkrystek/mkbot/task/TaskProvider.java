@@ -26,11 +26,15 @@ public class TaskProvider {
         List<String> replyTasksToLoad = newArrayList(BotProperties.getReplyTasksToLoad().split(" "));
         List<String> scheduledTasksToLoad = newArrayList(BotProperties.getScheduledTasksToLoad().split(" "));
 
+        replyTasksToLoad.remove("");
+        scheduledTasksToLoad.remove("");
+
         for (String taskName : replyTasksToLoad) {
             try {
                 Class<?> clazz = Class.forName("pl.mkrystek.mkbot.task.impl." + taskName);
                 Constructor<?> ctor = clazz.getConstructor();
                 Object task = ctor.newInstance();
+                LOGGER.debug("Registering reply task {}", task.getClass());
                 replyTasks.add((ReplyTask) task);
             } catch (Exception e) {
                 LOGGER.error("Error loading reply task: ", e);
@@ -42,6 +46,7 @@ public class TaskProvider {
                 Class<?> clazz = Class.forName("pl.mkrystek.mkbot.task.impl." + taskName);
                 Constructor<?> ctor = clazz.getConstructor();
                 Object task = ctor.newInstance();
+                LOGGER.debug("Registering scheduled task {}", task.getClass());
                 scheduledTasks.add((ScheduledTask) task);
             } catch (Exception e) {
                 LOGGER.error("Error loading scheduled task: ", e);
