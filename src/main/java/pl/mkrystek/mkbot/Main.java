@@ -8,13 +8,15 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
+        BotApplication application = null;
         try {
-            BotApplication application = new BotApplication();
+            application = new BotApplication();
             application.init();
             application.startApplication();
-            application.shutdown();
         } catch (RuntimeException e) {
             LOGGER.error("Error : ", e);
+        } finally {
+            if (application != null) application.shutdown();
         }
     }
 }
