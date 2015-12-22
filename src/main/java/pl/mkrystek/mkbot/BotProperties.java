@@ -25,8 +25,8 @@ public final class BotProperties {
         try {
             InputStream propertiesFile = BotProperties.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
             props.load(propertiesFile);
-            skypeDbPath = props.getProperty("skype_db_path");
             skypeUsername = props.getProperty("skype_username");
+            skypeDbPath = String.format("%s\\Skype\\%s\\main.db", System.getenv("APPDATA"), skypeUsername);
             chatName = props.getProperty("chat_name");
             pollingFrequency = Long.parseLong(props.getProperty("polling_frequency"));
             replyTasksToLoad = props.getProperty("reply_tasks_to_load");
