@@ -56,6 +56,8 @@ TODO
 * Maven
 * Skype account and desktop client (DUH!)
 
+Since bot needs to control desktop, it is best to run it inside virtual machine. So far, it has been tested to run correctly on Windows XP guest. You can just run it inside VM and minimize the VM (as long as you change setting to never turn screen off when inactive on guest).
+
 ## <a name="usage"/>Usage
 Clone repo, modify *config.properties* file accordingly, build jar with dependencies by invoking
 
