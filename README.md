@@ -42,9 +42,9 @@ Bot periodically (frequency is configurable) checks if there are any new message
 This approach works fine but it has 2 drawbacks: consistency and (once again) speed. When analyzing Skype database structure, I've counted 3 different ways Skype has been storing information about chats and participants throughout the time. When Skype decides once again to rethink their aproach, currently used algorithm in bot will become deprecated and more research will need to be done to restore this functionality. And for a topic of speed, Skype is slow to update its database which results in delay between receiving message and reacting to it.
 
 **Running tasks**  
-TODO
+MKBot periodically parses incoming messages looking for specific pattern. If it finds it, it executes corresponding task accordingly (thus producing answer immediately or scheduling one to be sent in future)
 
-**Typying messages**  
+**Typing messages**  
 To write messages in (already focused on proper chat) Skype window, MKBot is using [Robot](https://docs.oracle.com/javase/8/docs/api/java/awt/Robot.html) class, essentially emulating user-generated keyboard events.
 
 ## <a name="goals"/>Goals and Features
