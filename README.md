@@ -44,8 +44,8 @@ This approach works fine but it has 2 drawbacks: consistency and (once again) sp
 **Running tasks**  
 TODO
 
-**Typying answer**  
-TODO
+**Typying messages**  
+To write messages in (already focused on proper chat) Skype window, MKBot is using [Robot](https://docs.oracle.com/javase/8/docs/api/java/awt/Robot.html) class, essentially emulating user-generated keyboard events.
 
 ## <a name="goals"/>Goals and Features
 
