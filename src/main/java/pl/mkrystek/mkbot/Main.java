@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder().bannerMode(OFF).web(false).logStartupInfo(false)
             .sources(BotApplicationConfiguration.class).headless(false).run(args);
+        LOGGER.debug("Application started!");
         BotApplication application = ctx.getBean(BotApplication.class);
 
         try {
@@ -22,6 +23,7 @@ public class Main {
         } catch (Exception e) {
             LOGGER.error("Error : ", e);
         } finally {
+            LOGGER.debug("Shutting down application");
             if (application != null) application.shutdown();
         }
     }
