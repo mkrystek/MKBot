@@ -12,7 +12,7 @@ public class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        ConfigurableApplicationContext ctx = new SpringApplicationBuilder().bannerMode(OFF).web(false).logStartupInfo(false)
+        ConfigurableApplicationContext ctx = new SpringApplicationBuilder().bannerMode(OFF).web(true).logStartupInfo(false)
             .sources(BotApplicationConfiguration.class).headless(false).run(args);
         LOGGER.debug("Application started!");
         BotApplication application = ctx.getBean(BotApplication.class);
