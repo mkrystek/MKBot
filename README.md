@@ -46,7 +46,7 @@ MKBot periodically parses incoming messages looking for specific pattern. If it 
 **Typing messages**  
 To write messages in (already focused on proper chat) Skype window, MKBot is using [Robot](https://docs.oracle.com/javase/8/docs/api/java/awt/Robot.html) class, essentially emulating user-generated keyboard events.
 
-## <a name="goals"/>Goals//Features
+## <a name="goals"/>Goals/Features
 
 * configurable external REST access from/to MKBot
 * manage bot as admin (place admin skype username in config and perform various task, for example blacklist people, remotely change configuration, etc.)
