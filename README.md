@@ -13,7 +13,6 @@ Have fun!
 * [Requirements](#requirements)
 * [Usage](#usage)
 * [Configuration](#configuration)
-* [Roadmap](#roadmap)
 * [License](#license)
 
 <a name="disclaimer"/>Disclaimer
@@ -47,9 +46,13 @@ MKBot periodically parses incoming messages looking for specific pattern. If it 
 **Typing messages**  
 To write messages in (already focused on proper chat) Skype window, MKBot is using [Robot](https://docs.oracle.com/javase/8/docs/api/java/awt/Robot.html) class, essentially emulating user-generated keyboard events.
 
-## <a name="goals"/>Goals and Features
+## <a name="goals"/>Goals//Features
 
-TODO
+* configurable external REST access from/to MKBot
+* manage bot as admin (place admin skype username in config and perform various task, for example blacklist people, remotely change configuration, etc.)
+* remote OS command execution (like shutting down machine from skype chat)
+* custom DSL to specify behaviour of tasks (create your own tasks without recompiling code)
+* and many more
 
 ## <a name="requirements"/>Requirements
 * Java 8
@@ -59,13 +62,13 @@ TODO
 Since bot needs to control desktop, it is best to run it inside virtual machine. So far, it has been tested to run correctly on Windows XP guest. You can just run it inside VM and minimize the VM (as long as you change setting to never turn screen off when inactive on guest).
 
 ## <a name="usage"/>Usage
-Clone repo, modify *config.properties* file accordingly, build jar with dependencies by invoking
+Clone repo, modify *config.properties* file accordingly, build jar by invoking
 
 > mvn package
  
 then run it
 
-> java -jar MKBot-0.1-jar-with-dependencies.jar
+> java -jar MKBot-0.1.jar
 
 ## <a name="configuration"/>Configuration (config.properties file)
  * *skype_username* - username of skype user that is running bot
@@ -73,10 +76,6 @@ then run it
  * *polling_frequency* - (in millis) how often bot is scanning for new messages
  * *reply_tasks_to_load* - names of reply tasks to load (from pl.mkrystek.mkbot.task.impl package)
  * *scheduled_tasks_to_load* - names of scheduled tasks to load (from pl.mkrystek.mkbot.task.impl package)
-
-## <a name="roadmap"/>Roadmap
-
-v0.1 - Simple ping-pong reply functionality
 
 ## <a name="license"/>License
 MIT
