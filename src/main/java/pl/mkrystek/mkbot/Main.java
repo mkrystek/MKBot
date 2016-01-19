@@ -1,18 +1,19 @@
 package pl.mkrystek.mkbot;
 
+import static org.springframework.boot.Banner.Mode.OFF;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
 
-@SpringBootApplication
 public class Main {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
     public static void main(String[] args) throws Exception {
-        ApplicationContext ctx = SpringApplication.run(Main.class, args);
+        ConfigurableApplicationContext ctx = new SpringApplicationBuilder().bannerMode(OFF).web(false).logStartupInfo(false)
+            .sources(BotApplicationConfiguration.class).headless(false).run(args);
         BotApplication application = ctx.getBean(BotApplication.class);
 
         try {
