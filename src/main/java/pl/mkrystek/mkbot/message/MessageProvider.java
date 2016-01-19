@@ -21,16 +21,17 @@ public class MessageProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProvider.class);
 
-    @Autowired
-    private BotProperties botProperties;
+    private final BotProperties botProperties;
 
     private Connection databaseConnection;
     private List<String> chatParticipants;
     private Integer conversationId;
     private long lastMessageId;
 
-    public MessageProvider() throws Exception {
+    @Autowired
+    public MessageProvider(BotProperties botProperties) throws Exception {
         try {
+            this.botProperties = botProperties;
             databaseConnection = JDBC.createConnection(JDBC.PREFIX + botProperties.getSkypeDbPath(), new Properties());
             extractConversationId();
             extractParticipants();

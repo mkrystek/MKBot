@@ -16,15 +16,16 @@ public class TaskProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskProvider.class);
 
-    @Autowired
-    private BotProperties botProperties;
+    private final BotProperties botProperties;
 
     List<ReplyTask> replyTasks;
     List<ScheduledTask> scheduledTasks;
 
-    public TaskProvider() {
-        replyTasks = newArrayList();
-        scheduledTasks = newArrayList();
+    @Autowired
+    public TaskProvider(BotProperties botProperties) {
+        this.botProperties = botProperties;
+        this.replyTasks = newArrayList();
+        this.scheduledTasks = newArrayList();
         loadTasksFromConfig();
     }
 
