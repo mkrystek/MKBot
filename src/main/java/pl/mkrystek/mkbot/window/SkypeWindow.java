@@ -3,39 +3,37 @@ package pl.mkrystek.mkbot.window;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.awt.Desktop;
-import java.awt.Robot;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import com.google.common.base.Joiner;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.google.common.base.Joiner;
 import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.message.MessageParser;
 import pl.mkrystek.mkbot.message.MessageProvider;
 import pl.mkrystek.mkbot.message.SkypeMessage;
 
+@Component
 public class SkypeWindow {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SkypeWindow.class);
 
-    private Robot robot;
+    @Autowired
     private Keyboard keyboard;
+
+    @Autowired
     private MessageProvider messageProvider;
+
+    @Autowired
     private MessageParser messageParser;
 
-    public SkypeWindow() throws Exception {
-        try {
-            this.robot = new Robot();
-            this.keyboard = new Keyboard(robot);
-            this.messageProvider = new MessageProvider();
-            this.messageParser = new MessageParser();
-        } catch (Exception e) {
-            LOGGER.error("Unable to create SkypeWindow class, reason: ", e);
-            throw new Exception("Unable to create SkypeWindow class", e);
-        }
-    }
+    @Autowired
+    private BotProperties botProperties;
 
     public List<SkypeMessage> getNewMessages() {
         List<SkypeMessage> skypeMessages = newArrayList();
@@ -61,16 +59,16 @@ public class SkypeWindow {
     public boolean bringToForeground() {
         try {
             Desktop.getDesktop().browse(createSkypeURI());
-            robot.delay(3000); //Skype URI is sloooow so we need to delay here
+            Thread.sleep(3000); //Skype URI is sloooow so we need to wait here
             return true;
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException | URISyntaxException | InterruptedException e) {
             return false;
         }
     }
 
     private URI createSkypeURI() throws URISyntaxException {
         List<String> participants = messageProvider.getChatParticipants();
-        participants.remove(BotProperties.getSkypeUsername());
+        participants.remove(botProperties.getSkypeUsername());
         String uriString = Joiner.on(";").join(participants);
         return new URI(String.format("skype:%s?chat", uriString));
     }

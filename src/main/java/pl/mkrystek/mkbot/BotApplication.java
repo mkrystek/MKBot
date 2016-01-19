@@ -1,23 +1,28 @@
 package pl.mkrystek.mkbot;
 
-import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
-
 import java.util.concurrent.CountDownLatch;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.mkrystek.mkbot.task.TaskExecutionEngine;
 import pl.mkrystek.mkbot.task.TaskProvider;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
+@Component
 public class BotApplication {
 
-    private final TaskExecutionEngine taskExecutionEngine;
-    private final TaskProvider taskProvider;
-    private final SkypeWindow skypeWindow;
+    @Autowired
+    private TaskExecutionEngine taskExecutionEngine;
+
+    @Autowired
+    private TaskProvider taskProvider;
+
+    @Autowired
+    private SkypeWindow skypeWindow;
+
     private final CountDownLatch latch;
 
-    public BotApplication() throws Exception {
-        this.skypeWindow = new SkypeWindow();
-        this.taskExecutionEngine = new TaskExecutionEngine(newSingleThreadScheduledExecutor(), skypeWindow);
-        this.taskProvider = new TaskProvider();
+    public BotApplication() {
         this.latch = new CountDownLatch(1);
     }
 

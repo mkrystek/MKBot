@@ -4,25 +4,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+@Component
 public final class BotProperties {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotProperties.class);
     private static final String PROPERTIES_FILE_NAME = "config.properties";
 
-    private BotProperties() {
-    }
+    private String skypeDbPath;
+    private String chatName;
+    private Long pollingFrequency;
+    private String skypeUsername;
+    private String replyTasksToLoad;
+    private String scheduledTasksToLoad;
 
-    private static final Properties props;
-
-    private static String skypeDbPath;
-    private static String chatName;
-    private static Long pollingFrequency;
-    private static String skypeUsername;
-    private static String replyTasksToLoad;
-    private static String scheduledTasksToLoad;
-
-    static {
-        props = new Properties();
+    public BotProperties() {
         try {
+            Properties props = new Properties();
             InputStream propertiesFile = BotProperties.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE_NAME);
             props.load(propertiesFile);
             skypeUsername = props.getProperty("skype_username");
@@ -33,31 +34,31 @@ public final class BotProperties {
             scheduledTasksToLoad = props.getProperty("scheduled_tasks_to_load");
             propertiesFile.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Error occurred while reading properties file: ", e);
         }
     }
 
-    public static String getSkypeDbPath() {
+    public String getSkypeDbPath() {
         return skypeDbPath;
     }
 
-    public static String getSkypeUsername() {
+    public String getSkypeUsername() {
         return skypeUsername;
     }
 
-    public static String getChatName() {
+    public String getChatName() {
         return chatName;
     }
 
-    public static Long getPollingFrequency() {
+    public Long getPollingFrequency() {
         return pollingFrequency;
     }
 
-    public static String getReplyTasksToLoad() {
+    public String getReplyTasksToLoad() {
         return replyTasksToLoad;
     }
 
-    public static String getScheduledTasksToLoad() {
+    public String getScheduledTasksToLoad() {
         return scheduledTasksToLoad;
     }
 }

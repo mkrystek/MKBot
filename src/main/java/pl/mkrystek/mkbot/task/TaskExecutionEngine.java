@@ -1,27 +1,37 @@
 package pl.mkrystek.mkbot.task;
 
+import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
+@Component
 public class TaskExecutionEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskExecutionEngine.class);
     public static final String COMMAND_HELP_BODY = "?";
 
+    @Autowired
+    private SkypeWindow skypeWindow;
+
+    @Autowired
+    private BotProperties botProperties;
+
     private final ScheduledExecutorService scheduler;
-    private final SkypeWindow skypeWindow;
+
     private List<ReplyTask> replyTasks;
     private List<ScheduledTask> scheduledTasks;
 
-    public TaskExecutionEngine(ScheduledExecutorService scheduler, SkypeWindow skypeWindow) {
-        this.skypeWindow = skypeWindow;
-        this.scheduler = scheduler;
+    public TaskExecutionEngine() {
+        this.scheduler = newSingleThreadScheduledExecutor();
     }
 
     public void init(List<ReplyTask> replyTasks, List<ScheduledTask> scheduledTasks) {
@@ -41,7 +51,7 @@ public class TaskExecutionEngine {
                 LOGGER.debug("Writing message on skype: {}", reply);
                 skypeWindow.writeMessage(reply);
             }
-        })), 0, BotProperties.getPollingFrequency(), TimeUnit.MILLISECONDS);
+        })), 0, botProperties.getPollingFrequency(), TimeUnit.MILLISECONDS);
     }
 
     public void shutdown() {

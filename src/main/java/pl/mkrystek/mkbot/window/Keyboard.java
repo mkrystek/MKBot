@@ -2,11 +2,13 @@ package pl.mkrystek.mkbot.window;
 
 import static java.awt.event.KeyEvent.*;
 
-import java.awt.*;
+import java.awt.Robot;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Keyboard {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Keyboard.class);

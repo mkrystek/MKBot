@@ -7,11 +7,17 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import pl.mkrystek.mkbot.BotProperties;
 
+@Component
 public class TaskProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TaskProvider.class);
+
+    @Autowired
+    private BotProperties botProperties;
 
     List<ReplyTask> replyTasks;
     List<ScheduledTask> scheduledTasks;
@@ -23,8 +29,8 @@ public class TaskProvider {
     }
 
     private void loadTasksFromConfig() {
-        List<String> replyTasksToLoad = newArrayList(BotProperties.getReplyTasksToLoad().split(" "));
-        List<String> scheduledTasksToLoad = newArrayList(BotProperties.getScheduledTasksToLoad().split(" "));
+        List<String> replyTasksToLoad = newArrayList(botProperties.getReplyTasksToLoad().split(" "));
+        List<String> scheduledTasksToLoad = newArrayList(botProperties.getScheduledTasksToLoad().split(" "));
 
         replyTasksToLoad.remove("");
         scheduledTasksToLoad.remove("");
