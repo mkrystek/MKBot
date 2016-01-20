@@ -56,7 +56,7 @@ public class TaskExecutionEngine {
                     skypeWindow.writeMessage(reply);
                 }
             }));
-            externalAccessProvider.getMessages().forEach(externalMessage -> {
+            externalAccessProvider.getExternalMessages().forEach(externalMessage -> {
                 LOGGER.debug("Writing external message on skype: {}", externalMessage);
                 skypeWindow.writeMessage(externalMessage);
             });
