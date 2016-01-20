@@ -1,39 +1,21 @@
 package pl.mkrystek.mkbot.external;
 
-import static com.google.common.collect.Lists.newArrayList;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
-
-import java.util.List;
-import com.google.common.collect.ImmutableList;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestOperations;
 
-@RestController
 public class ExternalAccessProvider {
 
-    private static final int MAX_MESSAGES_COUNT = 50; //TODO configurable
+    private final RestOperations restOperations;
 
-    public List<String> messages;
-
-    public ExternalAccessProvider() {
-        this.messages = newArrayList();
+    public ExternalAccessProvider(RestOperations restOperations) {
+        this.restOperations = restOperations;
     }
 
-    @RequestMapping(method = POST, value = "/message")
-    public ResponseEntity<String> postMessage(@RequestBody String message) {
-        if (messages.size() < MAX_MESSAGES_COUNT) {
-            messages.add(message);
-            return ResponseEntity.ok("Message accepted");
-        }
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too many messages");
+    public <T> ResponseEntity<T> performGetRequest(String url, Class<T> responseType) {
+        return restOperations.getForEntity(url, responseType);
     }
 
-    public List<String> getExternalMessages() {
-        List<String> tmp = ImmutableList.copyOf(messages);
-        messages.clear();
-        return tmp;
+    public <T> ResponseEntity<T> performPostRequest(String url, Object requestObject, Class<T> responseType) {
+        return restOperations.postForEntity(url, requestObject, responseType);
     }
 }

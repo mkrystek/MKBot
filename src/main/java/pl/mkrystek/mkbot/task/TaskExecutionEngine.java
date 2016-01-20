@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pl.mkrystek.mkbot.BotProperties;
-import pl.mkrystek.mkbot.external.ExternalAccessProvider;
+import pl.mkrystek.mkbot.external.ExternalMessagesService;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
 @Component
@@ -26,7 +26,7 @@ public class TaskExecutionEngine {
     private BotProperties botProperties;
 
     @Autowired
-    private ExternalAccessProvider externalAccessProvider;
+    private ExternalMessagesService externalMessagesService;
 
     private final ScheduledExecutorService scheduler;
 
@@ -56,7 +56,7 @@ public class TaskExecutionEngine {
                     skypeWindow.writeMessage(reply);
                 }
             }));
-            externalAccessProvider.getExternalMessages().forEach(externalMessage -> {
+            externalMessagesService.getExternalMessages().forEach(externalMessage -> {
                 LOGGER.debug("Writing external message on skype: {}", externalMessage);
                 skypeWindow.writeMessage(externalMessage);
             });
