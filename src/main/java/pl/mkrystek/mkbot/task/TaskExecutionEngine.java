@@ -1,8 +1,10 @@
 package pl.mkrystek.mkbot.task;
 
+import static com.google.common.collect.Maps.newHashMap;
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
@@ -30,21 +32,28 @@ public class TaskExecutionEngine {
 
     private final ScheduledExecutorService scheduler;
 
-    private List<ReplyTask> replyTasks;
-    private List<ScheduledTask> scheduledTasks;
+    private Map<String, ReplyTask> replyTasks = newHashMap();
+    private Map<String, ScheduledTask> scheduledTasks = newHashMap();
 
     public TaskExecutionEngine() {
         this.scheduler = newSingleThreadScheduledExecutor();
     }
 
     public void init(List<ReplyTask> replyTasks, List<ScheduledTask> scheduledTasks) {
-        this.replyTasks = replyTasks;
-        this.scheduledTasks = scheduledTasks;
+        this.replyTasks = createTaskMap(replyTasks);
+        this.scheduledTasks = createTaskMap(scheduledTasks);
+    }
+
+    private <T extends BotTask> Map<String, T> createTaskMap(List<T> taskList) {
+        Map<String, T> map = newHashMap();
+        taskList.forEach(task -> task.getTaskValidNames().forEach(taskName -> map.put(taskName, task)));
+        return map;
     }
 
     public void start() {
         scheduler.scheduleAtFixedRate(() -> {
-            skypeWindow.getNewMessages().forEach(skypeMessage -> replyTasks.forEach(replyTask -> {
+            skypeWindow.getNewMessages().forEach(skypeMessage -> {
+                ReplyTask replyTask = replyTasks.get(skypeMessage.getTaskName());
                 if (replyTask.checkIfApplies(skypeMessage)) {
                     String reply;
                     if (skypeMessage.getMessageBody().equals(COMMAND_HELP_BODY)) {
@@ -55,7 +64,7 @@ public class TaskExecutionEngine {
                     LOGGER.debug("Writing message on skype: {}", reply);
                     skypeWindow.writeMessage(reply);
                 }
-            }));
+            });
             externalMessagesService.getExternalMessages().forEach(externalMessage -> {
                 LOGGER.debug("Writing external message on skype: {}", externalMessage);
                 skypeWindow.writeMessage(externalMessage);
