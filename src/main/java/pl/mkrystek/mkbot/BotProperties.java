@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public final class BotProperties {
+public class BotProperties {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BotProperties.class);
     private static final String PROPERTIES_FILE_NAME = "config.properties";
