@@ -3,13 +3,15 @@ package pl.mkrystek.mkbot;
 import java.util.concurrent.CountDownLatch;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
+import pl.mkrystek.mkbot.event.StopApplicationEvent;
 import pl.mkrystek.mkbot.task.TaskExecutionEngine;
 import pl.mkrystek.mkbot.task.TaskProvider;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
 @Component
-public class BotApplication {
+public class BotApplication implements ApplicationListener<StopApplicationEvent> {
 
     @Autowired
     private TaskExecutionEngine taskExecutionEngine;
@@ -33,12 +35,17 @@ public class BotApplication {
     public void startApplication() throws InterruptedException {
         if (skypeWindow.bringToForeground()) {
             taskExecutionEngine.start();
+            latch.await();
         }
-        latch.await();
     }
 
     public void shutdown() {
         taskExecutionEngine.shutdown();
         skypeWindow.close();
+    }
+
+    @Override
+    public void onApplicationEvent(StopApplicationEvent stopApplicationEvent) {
+        latch.countDown();
     }
 }
