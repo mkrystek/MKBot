@@ -2,6 +2,8 @@ package pl.mkrystek.mkbot;
 
 import java.util.concurrent.CountDownLatch;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,8 @@ import pl.mkrystek.mkbot.window.SkypeWindow;
 
 @Component
 public class BotApplication implements ApplicationListener<StopApplicationEvent> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(BotApplication.class);
 
     @Autowired
     private TaskExecutionEngine taskExecutionEngine;
@@ -35,6 +39,7 @@ public class BotApplication implements ApplicationListener<StopApplicationEvent>
     public void startApplication() throws InterruptedException {
         if (skypeWindow.bringToForeground()) {
             taskExecutionEngine.start();
+            LOGGER.debug("Application started!");
             latch.await();
         }
     }
@@ -46,6 +51,7 @@ public class BotApplication implements ApplicationListener<StopApplicationEvent>
 
     @Override
     public void onApplicationEvent(StopApplicationEvent stopApplicationEvent) {
+        LOGGER.debug("Received stop application event with message '{}', stopping application", stopApplicationEvent.getMessage());
         latch.countDown();
     }
 }
