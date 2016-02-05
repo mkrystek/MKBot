@@ -11,28 +11,30 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.sqlite.JDBC;
-import pl.mkrystek.mkbot.BotProperties;
 
 @Component
 public class MessageProvider {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageProvider.class);
 
-    private final BotProperties botProperties;
+    @Value("${chat_name}")
+    private String chatName;
+
+    @Value("${skype_username}")
+    private String skypeUsername;
 
     private Connection databaseConnection;
     private List<String> chatParticipants;
     private Integer conversationId;
     private long lastMessageId;
 
-    @Autowired
-    public MessageProvider(BotProperties botProperties) throws Exception {
+    public void initialize() throws Exception {
         try {
-            this.botProperties = botProperties;
-            databaseConnection = JDBC.createConnection(JDBC.PREFIX + botProperties.getSkypeDbPath(), new Properties());
+            String skypeDbPath = String.format("%s\\Skype\\%s\\main.db", System.getenv("APPDATA"), skypeUsername);
+            databaseConnection = JDBC.createConnection(JDBC.PREFIX + skypeDbPath, new Properties());
             extractConversationId();
             extractParticipants();
         } catch (SQLException e) {
@@ -44,7 +46,7 @@ public class MessageProvider {
 
     private void extractConversationId() throws SQLException {
         PreparedStatement ps = databaseConnection.prepareStatement("SELECT id FROM Conversations WHERE displayname = ?");
-        ps.setString(1, botProperties.getChatName());
+        ps.setString(1, chatName);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             conversationId = rs.getInt("id");
@@ -87,7 +89,7 @@ public class MessageProvider {
                 .prepareStatement("SELECT author, body_xml FROM Messages WHERE convo_id = ? AND id > ? AND author <> ?");
             ps.setInt(1, conversationId);
             ps.setLong(2, lastMessageId);
-            ps.setString(3, botProperties.getSkypeUsername());
+            ps.setString(3, skypeUsername);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 newMessages.add(String.format("%s - %s", rs.getString("author"), rs.getString("body_xml")));

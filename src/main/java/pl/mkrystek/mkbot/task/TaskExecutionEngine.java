@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.external.ExternalMessagesService;
 import pl.mkrystek.mkbot.window.SkypeWindow;
 
@@ -25,10 +26,10 @@ public class TaskExecutionEngine {
     private SkypeWindow skypeWindow;
 
     @Autowired
-    private BotProperties botProperties;
-
-    @Autowired
     private ExternalMessagesService externalMessagesService;
+
+    @Value("${polling_frequency}")
+    private long pollingFrequency;
 
     private final ScheduledExecutorService scheduler;
 
@@ -69,7 +70,7 @@ public class TaskExecutionEngine {
                 LOGGER.debug("Writing external message on skype: {}", externalMessage);
                 skypeWindow.writeMessage(externalMessage);
             });
-        }, 0, botProperties.getPollingFrequency(), TimeUnit.MILLISECONDS);
+        }, 0, pollingFrequency, TimeUnit.MILLISECONDS);
     }
 
     public void shutdown() {

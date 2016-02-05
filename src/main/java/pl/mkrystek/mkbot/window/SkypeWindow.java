@@ -3,7 +3,6 @@ package pl.mkrystek.mkbot.window;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.awt.Desktop;
-import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -11,9 +10,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import com.google.common.base.Joiner;
-import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.message.MessageParser;
 import pl.mkrystek.mkbot.message.MessageProvider;
 import pl.mkrystek.mkbot.message.SkypeMessage;
@@ -32,8 +31,8 @@ public class SkypeWindow {
     @Autowired
     private MessageParser messageParser;
 
-    @Autowired
-    private BotProperties botProperties;
+    @Value("${skype_username}")
+    private String skypeUsername;
 
     public List<SkypeMessage> getNewMessages() {
         List<SkypeMessage> skypeMessages = newArrayList();
@@ -56,19 +55,23 @@ public class SkypeWindow {
         keyboard.sendMessage(message);
     }
 
+    public void init() throws Exception {
+        messageProvider.initialize();
+    }
+
     public boolean bringToForeground() {
         try {
             Desktop.getDesktop().browse(createSkypeURI());
             Thread.sleep(3000); //Skype URI is sloooow so we need to wait here
             return true;
-        } catch (IOException | URISyntaxException | InterruptedException e) {
+        } catch (Exception e) {
             return false;
         }
     }
 
     private URI createSkypeURI() throws URISyntaxException {
         List<String> participants = messageProvider.getChatParticipants();
-        participants.remove(botProperties.getSkypeUsername());
+        participants.remove(skypeUsername);
         String uriString = Joiner.on(";").join(participants);
         return new URI(String.format("skype:%s?chat", uriString));
     }

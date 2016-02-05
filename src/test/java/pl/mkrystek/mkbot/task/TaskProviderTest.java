@@ -1,14 +1,12 @@
 package pl.mkrystek.mkbot.task;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
 
 import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import pl.mkrystek.mkbot.BotProperties;
 import pl.mkrystek.mkbot.task.impl.EchoTask;
 import pl.mkrystek.mkbot.task.impl.HelloTask;
 import pl.mkrystek.mkbot.task.impl.HelpTask;
@@ -16,9 +14,6 @@ import pl.mkrystek.mkbot.task.impl.TimeTask;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskProviderTest {
-
-    @Mock
-    private BotProperties botProperties;
 
     private TaskProvider taskProvider;
 
@@ -72,8 +67,7 @@ public class TaskProviderTest {
     }
 
     private void setupTaskProvider(String replyTasks) {
-        given(botProperties.getReplyTasksToLoad()).willReturn(replyTasks);
-        given(botProperties.getScheduledTasksToLoad()).willReturn("");
-        taskProvider = new TaskProvider(botProperties);
+        taskProvider = new TaskProvider();
+        taskProvider.setReplyTasksToLoad(replyTasks);
     }
 }

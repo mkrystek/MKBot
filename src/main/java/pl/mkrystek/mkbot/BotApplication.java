@@ -32,7 +32,8 @@ public class BotApplication implements ApplicationListener<StopApplicationEvent>
         this.latch = new CountDownLatch(1);
     }
 
-    public void init() {
+    public void init() throws Exception{
+        skypeWindow.init();
         taskExecutionEngine.init(taskProvider.getReplyTasks(), taskProvider.getScheduledTasks());
     }
 
