@@ -20,7 +20,6 @@ public class Main {
         try {
             application.init();
             application.startApplication();
-            LOGGER.debug("Application started!");
         } catch (Exception e) {
             LOGGER.error("Error : ", e);
         } finally {
