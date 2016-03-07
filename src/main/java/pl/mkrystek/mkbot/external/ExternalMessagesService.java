@@ -4,17 +4,20 @@ import static com.google.common.collect.Lists.newArrayList;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
-import com.google.common.collect.ImmutableList;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.google.common.collect.ImmutableList;
 
 @RestController
 public class ExternalMessagesService {
 
-    private static final int MAX_MESSAGES_COUNT = 50; //TODO configurable
+    @Value("${external_messages_limit}")
+    private int externalMessagesLimit;
 
     public List<String> messages;
 
@@ -24,7 +27,7 @@ public class ExternalMessagesService {
 
     @RequestMapping(method = POST, value = "/message")
     public ResponseEntity<String> postMessage(@RequestBody String message) {
-        if (messages.size() < MAX_MESSAGES_COUNT) {
+        if (messages.size() < externalMessagesLimit) {
             messages.add(message);
             return ResponseEntity.ok("Message accepted");
         }
