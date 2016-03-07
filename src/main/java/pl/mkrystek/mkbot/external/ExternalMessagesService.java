@@ -27,11 +27,11 @@ public class ExternalMessagesService {
 
     @RequestMapping(method = POST, value = "/message")
     public ResponseEntity<String> postMessage(@RequestBody String message) {
-        if (messages.size() < externalMessagesLimit) {
-            messages.add(message);
-            return ResponseEntity.ok("Message accepted");
+        if (messages.size() >= externalMessagesLimit) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too many messages");
         }
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too many messages");
+        messages.add(message);
+        return ResponseEntity.ok("Message accepted");
     }
 
     public List<String> getExternalMessages() {
