@@ -14,12 +14,13 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext ctx = new SpringApplicationBuilder().bannerMode(OFF).web(true).logStartupInfo(false)
             .sources(BotApplicationConfiguration.class).headless(false).run(args);
-        LOGGER.debug("Application started!");
+        LOGGER.debug("Starting application");
         BotApplication application = ctx.getBean(BotApplication.class);
 
         try {
             application.init();
             application.startApplication();
+            LOGGER.debug("Application started!");
         } catch (Exception e) {
             LOGGER.error("Error : ", e);
         } finally {
