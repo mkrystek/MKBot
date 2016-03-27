@@ -62,7 +62,7 @@ To write messages in (already focused on proper chat) Skype window, MKBot is usi
 Since bot needs to control desktop, it is best to run it inside virtual machine. So far, it has been tested to run correctly on Windows XP guest. You can just run it inside VM and minimize the VM (as long as you change setting to never turn screen off when inactive on guest).
 
 ## <a name="usage"/>Usage
-Clone repo, modify *config.properties* file accordingly, build jar by invoking
+Clone repo, build jar by invoking
 
 > mvn package
  
@@ -70,7 +70,9 @@ then run it
 
 > java -jar MKBot-0.1.jar
 
-## <a name="configuration"/>Configuration (config.properties file)
+To customize configuration, you can place *application.properties* file next to the JAR with specific properties you want to use.
+
+## <a name="configuration"/>Configuration (application.properties file)
  * *skype_username* - username of skype user that is running bot
  * *chat_name* - name of the chat that bot is running on
  * *polling_frequency* - (in millis) how often bot is scanning for new messages
